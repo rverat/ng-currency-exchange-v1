@@ -1,53 +1,69 @@
 <app-navbar></app-navbar>
 <div class="isolate bg-white px-2 py-12  lg:px-8">
-    
-    <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">REGISTRO</h2>
-    </div>
-    <form (ngSubmit)="fnGuardar()" #datosForm="ngForm"  class="mx-auto mt-16 max-w-xl sm:mt-20">
-      <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-      
-        <div class="sm:col-span-2">
-          <label for="company" class="block text-sm font-semibold leading-6 text-gray-900">ID USER</label>
-          <div class="mt-2.5">
-            <input type="text" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            required name="userId"
-            [(ngModel)]="currency.userId" #userId="ngModel" >
+
+  <div class="mx-auto max-w-2xl text-center">
+    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">REGISTRO</h2>
+  </div>
+  <form (ngSubmit)="fnGuardar()" #datosForm="ngForm" class="mx-auto mt-16 max-w-xl sm:mt-20">
+    <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+
+      <div class="sm:col-span-2">
+        <label for="company" class="block text-sm font-semibold leading-6 text-gray-900">ID USER</label>
+        <div class="mt-2.5">
+          <input type="text" id="userId" name="userId" [(ngModel)]="currency.userId" #userId="ngModel"
+            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            [required]="true" pattern="^[0-9]*$">
+          <div *ngIf="userId.errors?.['required'] && (userId.dirty || userId.touched)"
+            class="text-red-500 text-sm mt-1">
+            El ID de usuario es requerido.
+          </div>
+          <div *ngIf="userId.errors?.['pattern'] && (userId.dirty || userId.touched)" class="text-red-500 text-sm mt-1">
+            El ID de usuario debe ser un número entero.
           </div>
         </div>
-        <div class="sm:col-span-2">
-            <label for="company" class="block text-sm font-semibold leading-6 text-gray-900">AMOUNT</label>
-            <div class="mt-2.5">
-              <input type="number" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              required name="amount"
-              [(ngModel)]="currency.amount" #amount="ngModel" >
-            </div>
-        </div>
-
-        <div class="sm:col-span-2">
-            <label for="company" class="block text-sm font-semibold leading-6 text-gray-900">CURRENCY FROM</label>
-            <div class="mt-2.5">
-              <input type="text" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              required name="currencyFrom"
-              [(ngModel)]="currency.currencyFrom" #currencyFrom="ngModel">
-            </div>
-        </div>
-        <div class="sm:col-span-2">
-            <label for="company" class="block text-sm font-semibold leading-6 text-gray-900">CURRENCY TO</label>
-            <div class="mt-2.5">
-              <input type="text" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              required name="currencyTo"
-              [(ngModel)]="currency.currencyTo" #currencyTo="ngModel">
-            </div>
+      </div>
+      <div class="sm:col-span-2">
+        <label for="company" class="block text-sm font-semibold leading-6 text-gray-900">AMOUNT</label>
+        <div class="mt-2.5">
+          <input type="number" id="amount" name="amount" [(ngModel)]="currency.amount" #amount="ngModel"
+            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            [required]="true">
+          <div *ngIf="amount.errors?.['required'] && (amount.dirty || amount.touched)"
+            class="text-red-500 text-sm mt-1">
+            El monto es requerido.
+          </div>
         </div>
       </div>
-      <div class="mt-10">
-        <button type="submit" class="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+
+      <div class="sm:col-span-2">
+        <label for="company" class="block text-sm font-semibold leading-6 text-gray-900">CURRENCY FROM</label>
+        <div class="mt-2.5">
+          <select
+            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            required name="currencyFrom" [(ngModel)]="currency.currencyFrom" #currencyFrom="ngModel">
+            <option *ngFor="let currency of currencyTypes" [value]="currency">{{ currency }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="sm:col-span-2">
+        <label for="company" class="block text-sm font-semibold leading-6 text-gray-900">CURRENCY TO</label>
+        <div class="mt-2.5">
+          <select
+            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            required name="currencyTo" [(ngModel)]="currency.currencyTo" #currencyTo="ngModel">
+            <option *ngFor="let currency of currencyTypes" [value]="currency">{{ currency }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="mt-10">
+      <button type="submit"
+        class="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         [disabled]="!datosForm.form.valid">REGISTRAR</button>
-      </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>
 
-  <code>
+<!--<code>
     <pre>{{currency | json}}</pre>
-  </code>
+  </code> -->

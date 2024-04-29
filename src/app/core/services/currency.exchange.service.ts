@@ -7,16 +7,16 @@ import { CurrencyExchange } from '../models/CurrencyExchange';
   providedIn: 'root'
 })
 export class CurrencyExChangeService {
-  url: string = 'http://localhost:9006/currency-conversion/';
+  url: string = 'http://localhost:9006/api/v1/currency-exchange/';
 
   constructor(private http: HttpClient) { }
 
  
   list() {
-    return this.http.get<CurrencyExchange[]>(this.url + 'convertions');
+    return this.http.get<CurrencyExchange[]>(this.url + 'getAll');
   }
 
   save(data: CurrencyExchange){
-    return this.http.post( `${this.url}applyConvertion`, data);
+    return this.http.post( `${this.url}apply`, data);
   }
 }
